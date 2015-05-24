@@ -1,4 +1,4 @@
-MakeMatrix <- function(Matrix = matrix()) {
+MakeCacheMatrix <- function(Matrix = matrix()) {
 	# create an object for a Cached Inverse Matrix
         InvMatrix <- NULL
 	
@@ -25,30 +25,28 @@ MakeMatrix <- function(Matrix = matrix()) {
 
 
 
-## Write a short comment describing this function
 
-## Function that returns the inverse matrix of a SpecialMatrix
   ## created by using the "makeCacheMatrix()" function
 
-cacheSolve <- function(SpecialMatrix, ...) {
+cacheSolve <- function(sMatrix, ...) {
 
-	# retrieve "content" of InvMatrix in SpecialMatrix
-        InvMatrix <- SpecialMatrix$retrieve()
+	# retrieve "content" of InvMatrix in sMatrix
+        InvMatrix <- sMatrix$retrieve()
         
-	# if NOT empty, use it and avoid recomputing the inverse matrix
+	# if cached, use it and dont recompute the inverse matrix
         if(!is.null(InvMatrix)) {
                 message("Using cached inverse matrix")
                 return(InvMatrix)
         }
         
-        # else, get the raw matrix
-        Matrix <- SpecialMatrix$get()
+        # if not chached, get the matrix
+        Matrix <- sMatrix$get()
         
         # derive the inverse matrix
         InvMatrix <- solve(Matrix, ...)
         
-        # store the inverse matrix in the SpecialMatrix
-        SpecialMatrix$cache(InvMatrix)
+        # store the inverse matrix in the sMatrix
+        sMatrix$cache(InvMatrix)
         
         # return the inverse matrix
         InvMatrix
